@@ -30,6 +30,9 @@
 	<script src="./js/jquery-3.4.1.min.js"></script>
 	<script src="./js/anime.js"></script>
 	<script src="./js/logo-animation.js"></script>
+	<script src="./js/highcharts-3d.min.js"></script>
+	<script src="./js/highcharts.min.js"></script>
+    <script src="https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.js"></script>
 
 </head>
 <body>
@@ -133,22 +136,92 @@
 	
 	<div class="block1290" style="margin-top: -15px;">
 		
-		<div style="display: inline-block; width: 60%; height: 300px;">
-			<h5>无人机实时监控</h5>
-		</div>
-		<div style="display: inline-block; width: 30%; height: 300px;">
-			<h5>病虫害占比</h5>
+		<div style="height: 370px;">
+			<div style="float: left; width: 60%; height: 330px;">
+				<h5>无人机实时监控
+					<button style="color: white; margin-left: 20px; width:160px; height:20px;background: deepskyblue; border: deepskyblue; border-radius: 2px;">打开监控</button>
+				</h5>
+				<img src="./images/ag6.png" width="300px" height="300px" >
+			</div>
+			<div style="float: left; width: 30%; height: 330px;">
+				<h5>病虫害占比</h5>
+				<img src="./images/statics.png" width="400px" height="300px" >	
+			</div>
 		</div>
 
 		<hr/>
 		
 		<div>
 			<h5 style="margin-top: 30px;">各项资源使用情况</h5>
+			<div style="width:100%;height:300px;">
+					<canvas style="width:100%;height:270px;margin:auto;" id="chartCanvas"></canvas>
+			</div>
 		</div>
 	</div>
 
 <script>
+	var labels = [1,2,3,4,5];//横坐标数据
+	var datas = [10,30,25,50,40];//纵坐标数据
+	var data2 = [10,20,15,20,30];//纵坐标数据
 
+	var dataInfos=
+		{
+			labels:labels,
+			datasets:[
+				{
+					label:"用药量(%)",
+					fillColor:"transparent",
+					backgroundColor:"rgba(254,0,0,0.5)",//背景色
+					borderColor:"#FC8BA3",//线条颜色
+					pointRadius:0,//数据点大小
+					pointHitRadius:0,
+					data:data2
+				},
+				{
+					label:"用水量(T)",
+					fillColor:"transparent",
+					backgroundColor:"rgba(87,250,255,0.5)",//背景色
+					borderColor:"#FC8BA3",//线条颜色
+					pointRadius:0,//数据点大小
+					pointHitRadius:0,
+					data:datas
+				}
+			]
+		};
+
+		
+	
+	var ctx = document.getElementById("chartCanvas").getContext("2d");
+	var myLineChart = new Chart(ctx,{
+		type:'line',
+		data:dataInfos,
+		options:{
+				legend:{
+					display:true //屏蔽标题
+				},
+				responsive:true,
+				tooltips:{
+					mode:'single',
+				},
+				scales:{
+					xAxes:[{
+						borderColor:'transparent',
+						ticks:{
+							autoSkip:false,
+							maxRotation:0,
+						},
+						gridLines:{
+							isplay:false,
+						},
+					}],
+					yAxes:[{
+						gridLines:{
+							display:true,
+						},
+					}]
+				}
+		}
+	});
 	// Mobile default variables.
 	var mobile_threshold             = 415;
 	var tablet_threshold             = 841;
